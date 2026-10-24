@@ -1,3 +1,5 @@
+use std::num::NonZeroU128;
+
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
@@ -32,7 +34,7 @@ pub struct ProgramArgs {
     pub pattern_input: Option<String>,
 
     #[clap(long = "pattern-threads", help = "Threads used for pattern generation")]
-    pub pattern_threads: Option<u128>,
+    pub pattern_threads: Option<NonZeroU128>,
 
     #[clap(
         short = 'q',
@@ -84,4 +86,23 @@ pub struct ProgramArgs {
 pub enum Commands {
     // does testing things
     // list_mutations {    },
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ProgramArgs;
+    use clap::Parser;
+
+    #[test]
+    fn pattern_threads_reject_zero() {
+        assert!(ProgramArgs::try_parse_from(["gorilla", "--pattern-threads", "0"]).is_err());
+        assert_eq!(
+            ProgramArgs::try_parse_from(["gorilla", "--pattern-threads", "1"])
+                .unwrap()
+                .pattern_threads
+                .unwrap()
+                .get(),
+            1
+        );
+    }
 }

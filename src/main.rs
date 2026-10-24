@@ -60,7 +60,7 @@ fn main() {
     }
 
     if let Some(pattern_threads) = gorilla.program_args.pattern_threads {
-        gorilla.pattern_threads = pattern_threads;
+        gorilla.pattern_threads = pattern_threads.get();
     }
 
     if !gorilla.program_args.mutation_string.is_empty() {
