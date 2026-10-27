@@ -95,7 +95,7 @@ fn main() {
             }
             eprint!(
                 " -> {} {}",
-                format!("x{}", &mutation_set_test_size.to_string()).green(),
+                format!("x{}", mutation_set_test_size).green(),
                 "words".dimmed()
             );
             eprintln!()
